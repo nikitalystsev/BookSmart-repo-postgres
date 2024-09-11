@@ -1,0 +1,1 @@
+drop database if exists booksmart with (force);
