@@ -5,11 +5,14 @@ github.com/DATA-DOG/go-sqlmock v1.5.1/go.mod h1:88MAG/4G7SMwSE3CeA0ZKzrT5CiOU3OJ
 github.com/DATA-DOG/go-sqlmock v1.5.2/go.mod h1:88MAG/4G7SMwSE3CeA0ZKzrT5CiOU3OJ+JlNzwDqpNU=
 github.com/avito-tech/go-transaction-manager/drivers/sql/v2 v2.0.0-rc9.1 h1:Fv24aVI5ltsIa9bqMbq52DKrczJ3bXrIl4FN6Lpb85Y=
 github.com/avito-tech/go-transaction-manager/drivers/sql/v2 v2.0.0-rc9.1/go.mod h1:2pDyunC3mxoDcpEp8Gd0qxOYt5p8NLMlMZqW9Im35hY=
+github.com/avito-tech/go-transaction-manager/drivers/sql/v2 v2.0.0 h1:3zfqvhMSSsptUvHrqU2djExa2N5VhqtsAA0c/zS68uk=
+github.com/avito-tech/go-transaction-manager/drivers/sql/v2 v2.0.0/go.mod h1:b3djMXlKqRdoIFnrikW9WVdHDQAVG9ViUbl+UN+K7Is=
 github.com/avito-tech/go-transaction-manager/drivers/sqlx/v2 v2.0.0 h1:QGNNG7+D7APKfqnnY9WIwAzeqoSMm3GlC1gi1QfhfCk=
 github.com/avito-tech/go-transaction-manager/drivers/sqlx/v2 v2.0.0/go.mod h1:M8qpDTLZa/vngsE8zhICIGmS+GD/nk7tW5eBnx4u6D8=
 github.com/avito-tech/go-transaction-manager/trm/v2 v2.0.0-rc10 h1:SqfNHnRw9CeroyLp4aVJVnmNaSemjbGy0nhiSGerGW4=
 github.com/avito-tech/go-transaction-manager/trm/v2 v2.0.0-rc10/go.mod h1:qUNVecb/ahohzAvtGvjfWTeCOejgRRiO/2C4cDvtLjI=
 github.com/avito-tech/go-transaction-manager/trm/v2 v2.0.0-rc9.2/go.mod h1:qUNVecb/ahohzAvtGvjfWTeCOejgRRiO/2C4cDvtLjI=
+github.com/avito-tech/go-transaction-manager/trm/v2 v2.0.0 h1:C6FaIadZFy435YH9UQQbbY3gHgswhiyhmlKY4eMGXOI=
 github.com/avito-tech/go-transaction-manager/trm/v2 v2.0.0/go.mod h1:hR++XAHqj8JIwnCWaSkEpFyBumYoX95BqHwxzyuMykM=
 github.com/cespare/xxhash/v2 v2.1.2 h1:YRXhKfTDauu4ajMg1TPgFO5jnlC2HCbmLXMcTG5cbYE=
 github.com/cespare/xxhash/v2 v2.1.2/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
