@@ -65,8 +65,6 @@ func (rr *RatingRepo) GetByReaderAndBook(ctx context.Context, readerID uuid.UUID
 
 // GetByBookID TODO logs
 func (rr *RatingRepo) GetByBookID(ctx context.Context, bookID uuid.UUID) ([]*models.RatingModel, error) {
-	br.logger.Infof("selecting books with params")
-
 	query := `select id, reader_id, book_id, review, rating from bs.rating where book_id = $1`
 
 	var coreRatings []*repomodels.RatingModel
