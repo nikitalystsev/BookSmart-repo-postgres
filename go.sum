@@ -58,6 +58,10 @@ github.com/nikitalystsev/BookSmart-services v0.0.0-20240910183141-5ec7ba48fd6d/g
 github.com/nikitalystsev/BookSmart-services v0.0.0-20240910225524-d39b2d5f7cdb/go.mod h1:j63j5SHSuxxgv8O5jHUCgmWX0FsxU6AK0nrt8MNrFss=
 github.com/nikitalystsev/BookSmart-services v0.0.0-20240916065649-792b74800088 h1:d4vWOeIfgEED1HFetIFn/ogsvO41nj/CgD2DR9URk1E=
 github.com/nikitalystsev/BookSmart-services v0.0.0-20240916065649-792b74800088/go.mod h1:j63j5SHSuxxgv8O5jHUCgmWX0FsxU6AK0nrt8MNrFss=
+github.com/nikitalystsev/BookSmart-services v0.0.0-20240916123724-16020cbeaf39 h1:Tsd4vIrrdrjg8U3jMi9AMitPg0uym1EAaQCqAXIfj+0=
+github.com/nikitalystsev/BookSmart-services v0.0.0-20240916123724-16020cbeaf39/go.mod h1:JbPrba/KXP9DrltY1yuz09AFgNANLzqetT+TYROKbwQ=
+github.com/nikitalystsev/BookSmart-services v0.0.0-20240916130654-a8eb46a9d4f9 h1:7lkFasoWqgAQm99ANCbcEldyM35w0Qe/2E6cfgOfFWU=
+github.com/nikitalystsev/BookSmart-services v0.0.0-20240916130654-a8eb46a9d4f9/go.mod h1:JbPrba/KXP9DrltY1yuz09AFgNANLzqetT+TYROKbwQ=
 github.com/nikitalystsev/BookSmart-services/v2 v2.0.0-20240910193038-fe8a5b5f2034 h1:rtOIpgdeJA4ct+fkWML8ggmebMfzXI3yzSE4KsEy2UY=
 github.com/nikitalystsev/BookSmart-services/v2 v2.0.0-20240910193038-fe8a5b5f2034/go.mod h1:rstaW3X8wfEhlcrdhwdBbVXw7HFi5vL9Ee/mxjM0z8g=
 github.com/nxadm/tail v1.4.8 h1:nPr65rt6Y5JFSKQO7qToXr7pePgD6Gwiw05lkbyAQTE=

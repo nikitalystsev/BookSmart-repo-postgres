@@ -63,6 +63,31 @@ func (rr *RatingRepo) GetByReaderAndBook(ctx context.Context, readerID uuid.UUID
 	return rr.convertToRatingModel(&rating), nil
 }
 
+// GetByBookID TODO logs
+func (rr *RatingRepo) GetByBookID(ctx context.Context, bookID uuid.UUID) ([]*models.RatingModel, error) {
+	br.logger.Infof("selecting books with params")
+
+	query := `select id, reader_id, book_id, review, rating from bs.rating where book_id = $1`
+
+	var coreRatings []*repomodels.RatingModel
+
+	err := rr.db.SelectContext(ctx, &coreRatings, query, bookID)
+
+	if err != nil && !errors.Is(err, sql.ErrNoRows) {
+		return nil, err
+	}
+	if errors.Is(err, sql.ErrNoRows) || len(coreRatings) == 0 {
+		return nil, errs.ErrBookDoesNotExists
+	}
+
+	ratings := make([]*models.RatingModel, len(coreRatings))
+	for i, book := range coreRatings {
+		ratings[i] = rr.convertToRatingModel(book)
+	}
+
+	return ratings, nil
+}
+
 func (rr *RatingRepo) convertToRatingModel(rating *repomodels.RatingModel) *models.RatingModel {
 	return &models.RatingModel{
 		ID:       rating.ID,
