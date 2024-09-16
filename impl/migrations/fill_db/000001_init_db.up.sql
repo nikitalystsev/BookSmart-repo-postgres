@@ -63,6 +63,16 @@ CREATE TABLE IF NOT EXISTS bs.reservation
     CHECK (issue_date < return_date)
 );
 
+create table if not exists bs.rating
+(
+    id        uuid primary key not null default uuid_generate_v4(),
+    reader_id uuid             not null,
+    book_id   uuid             not null,
+    review    text,
+    rating    int              not null,
+    FOREIGN KEY (reader_id) REFERENCES reader (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 CREATE OR REPLACE FUNCTION bs.update_expired_reservations()
     RETURNS void AS
