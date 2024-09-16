@@ -7,7 +7,7 @@ require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/google/uuid v1.6.0
 	github.com/jmoiron/sqlx v1.4.0
-	github.com/nikitalystsev/BookSmart-services v0.0.0-20240916130654-a8eb46a9d4f9
+	github.com/nikitalystsev/BookSmart-services v0.0.0-20240916211448-42517bf0a11c
 	github.com/sirupsen/logrus v1.9.3
 )
 
