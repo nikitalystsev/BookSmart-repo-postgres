@@ -60,8 +60,8 @@ func (rr *ReservationRepo) Create(ctx context.Context, reservation *models.Reser
 	return nil
 }
 
-func (rr *ReservationRepo) GetByReaderAndBook(ctx context.Context, readerID, bookID uuid.UUID) (*models.ReservationModel, error) {
-	rr.logger.Infof("selecting reservation with readerID и bookID: %s и %s", readerID, bookID)
+func (rr *ReservationRepo) GetByReaderAndBook(ctx context.Context, readerID, bookID uuid.UUID) ([]*models.ReservationModel, error) {
+	rr.logger.Infof("selecting reservations with readerID и bookID: %s и %s", readerID, bookID)
 
 	query := `select 
     			id, 
@@ -73,20 +73,25 @@ func (rr *ReservationRepo) GetByReaderAndBook(ctx context.Context, readerID, boo
 			  from bs.reservation_view 
 			  where reader_id = $1 and book_id = $2`
 
-	var reservation repomodels.ReservationModel
-	err := rr.getter.DefaultTrOrDB(ctx, rr.db).GetContext(ctx, &reservation, query, readerID, bookID)
+	var coreReservations []*repomodels.ReservationModel
+	err := rr.getter.DefaultTrOrDB(ctx, rr.db).SelectContext(ctx, &coreReservations, query, readerID, bookID)
 	if err != nil && !errors.Is(err, sql.ErrNoRows) {
-		rr.logger.Errorf("error selecting reservation: %v", err)
+		rr.logger.Errorf("error selecting reservations: %v", err)
 		return nil, err
 	}
-	if errors.Is(err, sql.ErrNoRows) {
-		rr.logger.Warnf("reservation with this readerID и bookID not found: %s и %s", readerID, bookID)
+	if errors.Is(err, sql.ErrNoRows) || len(coreReservations) == 0 {
+		rr.logger.Warnf("reservations with this readerID и bookID not found: %s и %s", readerID, bookID)
 		return nil, errs.ErrReservationDoesNotExists
 	}
 
 	rr.logger.Infof("selected reservation with readerID и bookID: %s и %s", readerID, bookID)
 
-	return rr.convertToReservationModel(&reservation), nil
+	reservations := make([]*models.ReservationModel, len(coreReservations))
+	for i, coreReservation := range coreReservations {
+		reservations[i] = rr.convertToReservationModel(coreReservation)
+	}
+
+	return reservations, nil
 }
 
 func (rr *ReservationRepo) GetByID(ctx context.Context, ID uuid.UUID) (*models.ReservationModel, error) {
