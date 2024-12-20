@@ -214,6 +214,7 @@ func (br *BookRepo) GetByParams(ctx context.Context, params *dto.BookParamsDTO) 
 	                ($7 = 0 or publishing_year = $7) and 
 	                ($8 = '' or language ilike '%' || $8 || '%') and 
 	                ($9 = 0 or age_limit = $9)
+	          order by id 
 	          limit $10 offset $11`
 
 	var coreBooks []*repomodels.BookModel

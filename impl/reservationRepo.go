@@ -214,7 +214,7 @@ func (rr *ReservationRepo) GetExpiredByReaderID(ctx context.Context, readerID uu
 	)
 
 	var coreReservations []*repomodels.ReservationModel
-	err := rr.getter.DefaultTrOrDB(ctx, rr.db).SelectContext(ctx, &coreReservations, query, readerID, time.Now())
+	err := rr.getter.DefaultTrOrDB(ctx, rr.db).SelectContext(ctx, &coreReservations, query, readerID, time.Now().Format("2006-01-02"))
 	if err != nil && !errors.Is(err, sql.ErrNoRows) {
 		rr.logger.Errorf("error selecting expired reservations: %v", err)
 		return nil, err
@@ -252,6 +252,42 @@ func (rr *ReservationRepo) GetActiveByReaderID(ctx context.Context, readerID uui
 
 	var coreReservations []*repomodels.ReservationModel
 	err := rr.getter.DefaultTrOrDB(ctx, rr.db).SelectContext(ctx, &coreReservations, query, readerID)
+	if err != nil && !errors.Is(err, sql.ErrNoRows) {
+		rr.logger.Errorf("error selecting active reservations: %v", err)
+		return nil, err
+	}
+	if errors.Is(err, sql.ErrNoRows) || len(coreReservations) == 0 {
+		rr.logger.Warnf("active reservations with this readerID not found: %s", readerID)
+		return nil, errs.ErrReservationDoesNotExists
+	}
+
+	rr.logger.Infof("found %d active reservations with readerID %s", len(coreReservations), readerID)
+
+	reservations := make([]*models.ReservationModel, len(coreReservations))
+	for i, coreReservation := range coreReservations {
+		reservations[i] = rr.convertToReservationModel(coreReservation)
+	}
+
+	return reservations, nil
+}
+
+func (rr *ReservationRepo) GetByReaderID(ctx context.Context, readerID uuid.UUID, limit, offset int) ([]*models.ReservationModel, error) {
+	rr.logger.Infof("selecting active reservations with readerID: %s", readerID)
+
+	query := `select 
+    			  id, 
+    			  reader_id, 
+    			  book_id, 
+    			  issue_date, 
+    			  return_date, 
+    			  state 
+			  	from bs.reservation  
+			  	where reader_id = $1 
+			  	order by id
+			  	limit $2 offset $3`
+
+	var coreReservations []*repomodels.ReservationModel
+	err := rr.getter.DefaultTrOrDB(ctx, rr.db).SelectContext(ctx, &coreReservations, query, readerID, limit, offset)
 	if err != nil && !errors.Is(err, sql.ErrNoRows) {
 		rr.logger.Errorf("error selecting active reservations: %v", err)
 		return nil, err

@@ -1,3 +1,7 @@
+revoke reader from reader_user;
+
+drop user if exists reader_user;
+
 revoke administrator from admin_user;
 
 drop user if exists admin_user;

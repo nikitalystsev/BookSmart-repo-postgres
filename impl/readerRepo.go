@@ -4,13 +4,13 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	repomodels "github.com/nikitalystsev/BookSmart-repo-postgres/core/models"
 	"github.com/nikitalystsev/BookSmart-services/core/models"
 	"github.com/nikitalystsev/BookSmart-services/errs"
 	"github.com/nikitalystsev/BookSmart-services/intfRepo"
+	"github.com/redis/go-redis/v9"
 	"github.com/sirupsen/logrus"
 	"time"
 )
@@ -26,6 +26,10 @@ func NewReaderRepo(db *sqlx.DB, client *redis.Client, logger *logrus.Entry) intf
 }
 
 func (rr *ReaderRepo) Create(ctx context.Context, reader *models.ReaderModel) error {
+	if reader == nil {
+		rr.logger.Panic("nil reader")
+		panic("nil reader")
+	}
 	rr.logger.Infof("inserting reader with ID: %s", reader.ID)
 
 	query := `insert into bs.reader values ($1, $2, $3, $4, $5, $6)`

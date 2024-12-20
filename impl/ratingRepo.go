@@ -34,6 +34,7 @@ func (rr *RatingRepo) Create(ctx context.Context, rating *models.RatingModel) er
 		rating.Review,
 		rating.Rating,
 	)
+
 	if err != nil {
 		rr.logger.Errorf("error inserting rating: %v", err)
 		return err
@@ -73,14 +74,14 @@ func (rr *RatingRepo) GetByReaderAndBook(ctx context.Context, readerID, bookID u
 }
 
 // GetByBookID TODO logs
-func (rr *RatingRepo) GetByBookID(ctx context.Context, bookID uuid.UUID) ([]*models.RatingModel, error) {
+func (rr *RatingRepo) GetByBookID(ctx context.Context, bookID uuid.UUID, limit, offset int) ([]*models.RatingModel, error) {
 	rr.logger.Infof("selecting ratings with bookID: %s", bookID.String())
 
-	query := `select id, reader_id, book_id, review, rating from bs.rating where book_id = $1`
+	query := `select id, reader_id, book_id, review, rating from bs.rating where book_id = $1 order by id limit $2 offset $3`
 
 	var coreRatings []*repomodels.RatingModel
 
-	err := rr.db.SelectContext(ctx, &coreRatings, query, bookID)
+	err := rr.db.SelectContext(ctx, &coreRatings, query, bookID, limit, offset)
 	if err != nil && !errors.Is(err, sql.ErrNoRows) {
 		rr.logger.Errorf("error selecting ratings: %v", err)
 		return nil, err

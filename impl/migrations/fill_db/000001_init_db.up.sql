@@ -35,18 +35,22 @@ CREATE TABLE IF NOT EXISTS bs.lib_card
     lib_card_num  VARCHAR(13)      NOT NULL UNIQUE,
     validity      INT              NOT NULL,
     issue_date    DATE             NOT NULL,
-    action_status BOOLEAN          NOT NULL,
-    FOREIGN KEY (reader_id) REFERENCES reader (id) ON DELETE CASCADE ON UPDATE CASCADE
+    action_status BOOLEAN          NOT NULL
 );
+
+alter table bs.lib_card
+    add foreign key (reader_id) references reader (id) on delete cascade on update cascade;
 
 CREATE TABLE IF NOT EXISTS bs.favorite_books
 (
     book_id   UUID NOT NULL,
-    reader_id UUID NOT NULL,
-    PRIMARY KEY (book_id, reader_id),
-    FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (reader_id) REFERENCES reader (id) ON DELETE CASCADE ON UPDATE CASCADE
+    reader_id UUID NOT NULL
 );
+
+alter table bs.favorite_books
+    add primary key (book_id, reader_id),
+    add foreign key (book_id) references book (id) on delete cascade on update cascade,
+    add foreign key (reader_id) references reader (id) on delete cascade on update cascade;
 
 CREATE TYPE RESERVATION_STATE AS ENUM ('Issued', 'Extended', 'Expired', 'Closed');
 
@@ -57,11 +61,13 @@ CREATE TABLE IF NOT EXISTS bs.reservation
     book_id     UUID              NOT NULL,
     issue_date  DATE              NOT NULL,
     return_date DATE              NOT NULL,
-    state       RESERVATION_STATE NOT NULL,
-    FOREIGN KEY (reader_id) REFERENCES reader (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CHECK (issue_date < return_date)
+    state       RESERVATION_STATE NOT NULL
 );
+
+alter table bs.reservation
+    add foreign key (reader_id) references reader (id) on delete cascade on update cascade,
+    add foreign key (book_id) references book (id) on delete cascade on update cascade,
+    add check (issue_date < return_date);
 
 create table if not exists bs.rating
 (
@@ -69,10 +75,12 @@ create table if not exists bs.rating
     reader_id uuid             not null,
     book_id   uuid             not null,
     review    text,
-    rating    int              not null,
-    FOREIGN KEY (reader_id) REFERENCES reader (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE ON UPDATE CASCADE
+    rating    int              not null
 );
+
+alter table bs.rating
+    add foreign key (reader_id) references reader (id) on delete cascade on update cascade,
+    add foreign key (book_id) references book (id) on delete cascade on update cascade;
 
 CREATE OR REPLACE FUNCTION bs.update_expired_reservations()
     RETURNS void AS
