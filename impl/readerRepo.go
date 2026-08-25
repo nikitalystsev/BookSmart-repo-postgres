@@ -161,7 +161,7 @@ func (rr *ReaderRepo) SaveRefreshToken(ctx context.Context, id uuid.UUID, token 
 }
 
 func (rr *ReaderRepo) GetByRefreshToken(ctx context.Context, token string) (*models.ReaderModel, error) {
-	rr.logger.Infof("getting reader by refresh token: %s", token)
+	rr.logger.Infof("getting reader by refresh token")
 
 	var readerID uuid.UUID
 
@@ -171,7 +171,7 @@ func (rr *ReaderRepo) GetByRefreshToken(ctx context.Context, token string) (*mod
 		return nil, err
 	}
 	if errors.Is(err, redis.Nil) {
-		rr.logger.Errorf("reader with this refresh token not found: %s", token)
+		rr.logger.Errorf("reader with this refresh token not found")
 		return nil, errs.ErrReaderDoesNotExists
 	}
 
@@ -195,7 +195,7 @@ func (rr *ReaderRepo) GetByRefreshToken(ctx context.Context, token string) (*mod
 		return nil, errs.ErrReaderDoesNotExists
 	}
 
-	rr.logger.Infof("getting reader by refresh token: %v", token)
+	rr.logger.Infof("reader retrieved by refresh token")
 
 	return rr.convertToReaderModel(&reader), nil
 }
